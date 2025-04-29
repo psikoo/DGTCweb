@@ -14,7 +14,7 @@ cd $repo/java
 sudo docker build -t dgt-java:1 . >/dev/null
 
 echo "-- Building the frontend --"
-cp $repo/vue $varRepo/aboutme-frontend/site/vue/dgt/vue
+cp -r $repo/vue $varRepo/aboutme-frontend/site/vue/dgt/vue
 cd $varRepo/aboutme-frontend/site/vue/dgt/vue
 echo "> dgt"
 sudo npm install >/dev/null
