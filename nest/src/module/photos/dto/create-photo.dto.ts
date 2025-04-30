@@ -5,7 +5,7 @@ export class CreatePhotoDto {
   @IsString()
   url: string;
   @IsNumber()
-  time: number;
+  time: string;
   @IsNumber()
   cameraId: Camera;
 }
