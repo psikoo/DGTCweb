@@ -8,5 +8,6 @@ export class UpdatePhotoDto extends PartialType(CreatePhotoDto) {
   url: string;
   @IsNumber()
   time: number;
-  camera: Camera;
+  @IsNumber()
+  cameraId: Camera;
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Photo } from "src/module/photos/entities";
 
 @Entity()
@@ -13,6 +13,6 @@ export class Camera {
   location: string;
   @Column({nullable:false})
   watch: boolean;
-  @OneToMany(() => Photo, (photo) => photo.camera)
+  @OneToMany(() => Photo, (photo) => photo.cameraId)
   photos: Photo[]
 }
