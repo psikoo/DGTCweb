@@ -14,6 +14,9 @@ export const DatabaseProvider: DynamicModule = TypeOrmModule.forRootAsync({
       password: config.get("DB_PASSWORD"),
       database: config.get("DB_NAME"),
       logging: config.get("DB_LOGGING"),
+      entities: [
+        __dirname + '/../module/**/*.entity{.ts,.js}',
+      ],
       autoLoadEntities: true,
       synchronize: true
     } as ConnectOptions
