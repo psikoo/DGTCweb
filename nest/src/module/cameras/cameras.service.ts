@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCameraDto } from './dto/create-camera.dto';
 import { UpdateCameraDto } from './dto/update-camera.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Camera } from './entities';
 
 @Injectable()
 export class CamerasService {
-  create(createCameraDto: CreateCameraDto) {
-    return 'This action adds a new camera';
+  constructor(@InjectRepository(Camera) private readonly cameraRepository: Repository<Camera>) {}
+
+  async create(body: CreateCameraDto) {
+    const camera: Camera = await this.cameraRepository.create({
+      url: body.url,
+      name: body.name,
+      location: body.location,
+      watch: body.watch
+    })
+    return this.cameraRepository.save(camera);
   }
 
-  findAll() {
-    return `This action returns all cameras`;
+  async findAll() {
+    return await this.cameraRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} camera`;
+  async findOne(id: number) {
+    const camera: Camera | null = await this.cameraRepository.findOneBy({id});
+    if(!camera) throw new NotFoundException();
+    else return camera;
   }
 
-  update(id: number, updateCameraDto: UpdateCameraDto) {
-    return `This action updates a #${id} camera`;
+  async update(id: number, body: UpdateCameraDto) {
+    const camera: Camera | undefined = await this.cameraRepository.preload({
+      id,
+      url: body.url,
+      name: body.name,
+      location: body.location,
+      watch: body.watch
+    })
+    if(!camera) throw new NotFoundException("Resource not found");
+    else this.cameraRepository.save(camera);
+    return camera;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} camera`;
+  async remove(id: number) {
+    const camera: Camera | null = await this.cameraRepository.findOneBy({id});
+    if(!camera) throw new NotFoundException("Resource not found");
+    else {
+      this.cameraRepository.remove(camera);
+      return JSON.parse(`{"deletedId": "${id}"}`);
+    }
   }
 }

@@ -22,6 +22,8 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware, BasicPasswordMiddleware)
       .exclude({ path: "favicon.ico", method: RequestMethod.GET })
-      .forRoutes({ path:"/", method:RequestMethod.ALL });
+      .forRoutes({ path:"/*path", method:RequestMethod.ALL });
+      //{ path:"/cameras/{:id}", method:RequestMethod.ALL }, 
+      //{ path:"/photos/{:id}", method:RequestMethod.ALL }
   }
 }
