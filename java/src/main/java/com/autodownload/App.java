@@ -1,6 +1,5 @@
 package com.autodownload;
 
-import java.io.IOException;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Random;
@@ -8,10 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.autodownload.lib.baringo.BaringoClient;
-import com.autodownload.lib.baringo.model.Image;
-import com.autodownload.lib.baringo.util.BaringoApiException;
-import com.autodownload.util.request.Post;
 import com.autodownload.util.runnable.ApiDownloader;
 import com.autodownload.util.runnable.PhotoDownloader;
 
@@ -36,37 +31,6 @@ public class App {
     // Setup ApiDownloader
     startApiExecutor(URI_STRING);
     ApiDownloader.setup(URI_STRING);
-
-    try {
-      System.out.println(Post.postImage(
-        "546c25a59c58ad7", 
-        "https://api.imgur.com/3/image", 
-        "/home/psikoo/Documents/GitHub/DGTCweb/java/images/598.jpg",
-        "598",
-        "https://infocar.dgt.es/etraffic/data/camaras/598.jpg"
-      ));
-    } catch (IOException | InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    BaringoClient client = null;
-    String clientId = "PUT YOUR CLIENT ID HERE!";
-    String clientSecret = "PUT YOUR CLIENT SECRET HERE!";
-    try {
-      client = new BaringoClient.Builder()
-              .clientAuth( clientId, clientSecret )
-              .build();
-    } catch (BaringoApiException e) { e.printStackTrace(); } 
-
-    try {
-      Image image = client.imageService().uploadLocalImage(
-        null, 
-        "/home/psikoo/Documents/GitHub/DGTCweb/java/images/598.jpg", 
-        "1", 
-        "tittle", 
-        "description");
-      System.out.println( image );
-    } catch (BaringoApiException | IOException e) { e.printStackTrace(); }
   }
 
   public static void updateCameras() {

@@ -4,6 +4,8 @@
 effective-pom.xml
 autodownload.jar
 .env
+link.txt
+res.json
 # Compiled class file
 *.class
 

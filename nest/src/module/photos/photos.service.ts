@@ -23,6 +23,10 @@ export class PhotosService {
     return await this.photoRepository.find({order: {id: {direction: "ASC"}}, relations: ["cameraId"]});
   }
 
+  async findAllByCameraId(id: number) {
+    return await this.photoRepository.find({where: {cameraId: {id: id}}, order: {id: {direction: "DESC"}}, relations: ["cameraId"]});
+  }
+
   async findOne(id: number) {
     const photo: Photo | null = await this.photoRepository.findOne({where: {id: id}, relations: ["cameraId"]});
     if(!photo) throw new NotFoundException();

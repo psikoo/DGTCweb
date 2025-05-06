@@ -22,6 +22,11 @@ export class CamerasController {
     return this.camerasService.findOne(+id);
   }
 
+  @Get('name/:name')
+  findOneByName(@Param('name') name: string) {
+    return this.camerasService.findOneByName(name);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCameraDto: UpdateCameraDto) {
     return this.camerasService.update(+id, updateCameraDto);

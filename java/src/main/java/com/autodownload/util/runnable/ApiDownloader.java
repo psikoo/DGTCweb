@@ -39,8 +39,8 @@ public class ApiDownloader implements Runnable {
     } catch (NullPointerException ignore) {}
     App.setWatchList(watchList);
     App.updateCameras();
-    long unixTime = (System.currentTimeMillis()/1000L)-App.getStartTime();
-    System.out.println(unixTime+"> Updated cameras");
+    //long unixTime = (System.currentTimeMillis()/1000L)-App.getStartTime();
+    //System.out.println(unixTime+"> Updated cameras");
   }
 
   @SuppressWarnings("CallToPrintStackTrace")

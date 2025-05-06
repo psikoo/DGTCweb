@@ -17,6 +17,11 @@ export class PhotosController {
     return this.photosService.findAll();
   }
 
+  @Get('camera/:id')
+  findAllByCameraId(@Param('id') id: number) {
+    return this.photosService.findAllByCameraId(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.photosService.findOne(+id);

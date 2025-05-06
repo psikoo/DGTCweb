@@ -51,11 +51,4 @@ public class Post {
     }
     return formBodyBuilder.toString();
   }
-
-  // curl --location 'https://api.imgur.com/3/image' \
-  // --header 'Authorization: Client-ID 546c25a59c58ad7' \
-  // --form 'image=@"/home/psikoo/Documents/GitHub/DGTCweb/java/images/598.jpg"' \
-  // --form 'type="image"' \
-  // --form 'title="REPLACEcameraIdREPLACE"' \
-  // --form 'description="REPLACEcameraIdREPLACE"'
 }

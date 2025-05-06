@@ -29,6 +29,12 @@ export class CamerasService {
     else return camera;
   }
 
+  async findOneByName(name: string) {
+    const camera: Camera | null = await this.cameraRepository.findOne({where: {name: name}});
+    if(!camera) throw new NotFoundException();
+    else return camera;
+  }
+
   async update(id: number, body: UpdateCameraDto) {
     const camera: Camera | undefined = await this.cameraRepository.preload({
       id,
