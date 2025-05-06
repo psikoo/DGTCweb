@@ -3,6 +3,7 @@
 /images
 effective-pom.xml
 autodownload.jar
+.env
 # Compiled class file
 *.class
 
