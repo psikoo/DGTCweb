@@ -17,6 +17,7 @@ public class ApiDownloader implements Runnable {
   }
 
   @Override
+  @SuppressWarnings("CallToPrintStackTrace")
   public void run() {
     watchList = new HashMap<>();
     try {
@@ -37,11 +38,12 @@ public class ApiDownloader implements Runnable {
     } catch (URISyntaxException | IOException e) { e.printStackTrace(); 
     } catch (NullPointerException ignore) {}
     App.setWatchList(watchList);
-    App.updateCameras(); //! breaks when setting of 2 cameras in 1 update
+    App.updateCameras();
     long unixTime = (System.currentTimeMillis()/1000L)-App.getStartTime();
     System.out.println(unixTime+"> Updated cameras");
   }
 
+  @SuppressWarnings("CallToPrintStackTrace")
   public static void setup(String uriString) {
     watchList = new HashMap<>();
     try {
