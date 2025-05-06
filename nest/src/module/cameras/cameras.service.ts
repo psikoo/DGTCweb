@@ -20,7 +20,7 @@ export class CamerasService {
   }
 
   async findAll() {
-    return await this.cameraRepository.find();
+    return await this.cameraRepository.find({order: {id: {direction: "ASC"}}});
   }
 
   async findOne(id: number) {
