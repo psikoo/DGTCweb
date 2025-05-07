@@ -1,4 +1,4 @@
-package com.autodownload.util.request;
+package com.autodownload.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class Get {
+  // Fetch an image from the given url and downloads it to the given path
   public static void getImgFromURL(String uriString, String destinationFile) throws URISyntaxException, IOException {
     URL url = new URI(uriString).toURL();
     try (InputStream inputStream = url.openStream()) {
@@ -26,6 +27,7 @@ public class Get {
     }  
   }
 
+  // Fetch json object
   public static JsonNode getJsonFromURL(String uriString) throws URISyntaxException, IOException {
     URL url = new URI(uriString).toURL();
     ObjectMapper mapper = new ObjectMapper();

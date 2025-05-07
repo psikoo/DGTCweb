@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: postgresSQL-17
+    container_name: postgresSQL-DGTCW
     image: postgres:17
     restart: always
     environment:
@@ -12,7 +12,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
   pgadmin:
-    container_name: pgadmin4-8.13
+    container_name: pgadmin4-DGTCW
     image: dpage/pgadmin4:8.13
     restart: always
     environment:
@@ -24,12 +24,21 @@ services:
       - pgadmin:/var/lib/pgadmin
     depends_on:
       - db
-#  nest-dgt:
-#    container_name: nest-dgt
-#    image: nest-dgt:1
-#    restart: always
-#    ports:
-#      - "3000:3000"
+  nest-dgt:
+    container_name: nest-dgt
+    image: nest-dgt:1
+    restart: always
+    ports:
+      - "3000:3000"
+  java-dgt:
+    container_name: java-dgt
+    image: java-dgt:1
+    restart: always
+    depends_on:
+      - db
+      - nest-dgt
+    links:
+      - nest-dgt
 
 volumes:
   pgdata:

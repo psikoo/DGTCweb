@@ -3,14 +3,16 @@ package com.autodownload.util.runnable;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import com.autodownload.App;
-import com.autodownload.util.request.Get;
+import com.autodownload.util.Get;
+import com.autodownload.util.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class ApiDownloader implements Runnable {
+  private static final HashMap<Integer, String> WATCHLIST = new HashMap<>();
   private String uriString = "";
-  private static HashMap<Integer, String> watchList;
 
   public ApiDownloader(String uriString) {
     this.uriString = uriString;
@@ -19,51 +21,44 @@ public class ApiDownloader implements Runnable {
   @Override
   @SuppressWarnings("CallToPrintStackTrace")
   public void run() {
-    watchList = new HashMap<>();
+    WATCHLIST.clear();
     try {
+      // Download full camera list
       JsonNode fullJson = Get.getJsonFromURL(uriString);
-
-      int count = 0;
-      while(count >= 0) {
-        // filter json and add to watchList
-        if(fullJson.get(count).get("watch").asText().equals("true")) {
-          Integer name = fullJson.get(count).get("name").asInt();
-          String url = fullJson.get(count).get("url").asText();
-          watchList.put(name, url);
+      // Loop json looking for items to add to the watchlist
+      Iterator<JsonNode> jsonIterator = fullJson.elements();
+      while(jsonIterator.hasNext()) {
+        JsonNode next = jsonIterator.next();
+        if(next.get("watch").asText().equals("true")) {
+          Integer name = next.get("name").asInt();
+          String url = next.get("url").asText();
+          WATCHLIST.put(name, url);
         }
-        // loop until there are no more nodes
-        if(fullJson.get(count+1).get("id") == null) count = -1;
-        else count++;
       }
-    } catch (URISyntaxException | IOException e) { e.printStackTrace(); 
-    } catch (NullPointerException ignore) {}
-    App.setWatchList(watchList);
+    } catch (URISyntaxException | IOException e) { e.printStackTrace(); }
+    App.setWatchList(WATCHLIST);
     App.updateCameras();
-    //long unixTime = (System.currentTimeMillis()/1000L)-App.getStartTime();
-    //System.out.println(unixTime+"> Updated cameras");
+    Logger.instance().log("Updated", "Cameras", Logger.Verbosity.HIGH);
   }
 
   @SuppressWarnings("CallToPrintStackTrace")
   public static void setup(String uriString) {
-    watchList = new HashMap<>();
     try {
+      // Download full camera list
       JsonNode fullJson = Get.getJsonFromURL(uriString);
-      
-      int count = 0;
-      while(count >= 0) {
-        // filter json and add to watchList
-        if(fullJson.get(count).get("watch").asText().equals("true")) {
-          Integer name = fullJson.get(count).get("name").asInt();
-          String url = fullJson.get(count).get("url").asText();
-          watchList.put(name, url);
+      // Loop json looking for items to add to the watchlist
+      Iterator<JsonNode> jsonIterator = fullJson.elements();
+      while(jsonIterator.hasNext()) {
+        JsonNode next = jsonIterator.next();
+        if(next.get("watch").asText().equals("true")) {
+          Integer name = next.get("name").asInt();
+          String url = next.get("url").asText();
+          WATCHLIST.put(name, url);
         }
-        // loop until there are no more nodes
-        if(fullJson.get(count+1).get("id") == null) count = -1;
-        else count++;
       }
-    } catch (URISyntaxException | IOException e) { e.printStackTrace(); 
-    } catch (NullPointerException ignore) {}
-    App.setWatchList(watchList);
+    } catch (URISyntaxException | IOException e) { e.printStackTrace(); }
+    App.setWatchList(WATCHLIST);
     App.updateCameras();
+    Logger.instance().log("Updated", "Cameras", Logger.Verbosity.HIGH);
   }
 }

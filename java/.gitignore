@@ -4,6 +4,7 @@
 effective-pom.xml
 autodownload.jar
 .env
+.env.docker
 link.txt
 res.json
 # Compiled class file
