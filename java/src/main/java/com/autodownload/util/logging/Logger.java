@@ -43,7 +43,7 @@ public class Logger {
   }
 
   private String actionFormatter(String action) {
-    int padding = 7-action.length();
+    int padding = 10-action.length();
     if(padding<0) padding = 0;
     return action+" ".repeat(padding);
   }

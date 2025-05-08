@@ -1,0 +1,25 @@
+@import './reset.css';
+
+:root {
+  --body-color: #35353E;
+  --border-color: #EEEEEE;
+  --bg-color: #2A2A40;
+  --text-color: #EEEEEE;
+  --primary-color: #202035;
+}
+
+#app {
+  background-color: var(--body-color);
+  color: var(--text-color);
+  display: flex;
+  height: calc(100vh - 2rem);
+  margin: 0 auto;
+  padding: 1rem;
+  font-weight: normal;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
