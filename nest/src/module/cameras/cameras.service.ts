@@ -13,6 +13,7 @@ export class CamerasService {
     const camera: Camera = await this.cameraRepository.create({
       url: body.url,
       name: body.name,
+      road: body.road,
       location: body.location,
       watch: body.watch
     })
@@ -40,6 +41,7 @@ export class CamerasService {
       id,
       url: body.url,
       name: body.name,
+      road: body.road,
       location: body.location,
       watch: body.watch
     })

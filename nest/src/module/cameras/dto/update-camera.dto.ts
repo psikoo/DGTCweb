@@ -8,6 +8,8 @@ export class UpdateCameraDto extends PartialType(CreateCameraDto) {
     @IsString()
     name: string;
     @IsString()
+    road: string;
+    @IsString()
     location: string;
     @IsBoolean()
     watch: boolean;

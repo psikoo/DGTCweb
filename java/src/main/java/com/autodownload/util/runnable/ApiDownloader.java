@@ -19,7 +19,6 @@ public class ApiDownloader implements Runnable {
   }
 
   @Override
-  @SuppressWarnings("CallToPrintStackTrace")
   public void run() {
     WATCHLIST.clear();
     try {
@@ -35,13 +34,12 @@ public class ApiDownloader implements Runnable {
           WATCHLIST.put(name, url);
         }
       }
-    } catch (URISyntaxException | IOException e) { e.printStackTrace(); }
+    } catch (URISyntaxException | IOException logError) { Logger.instance().log("Getting", "Cameras", Logger.Verbosity.MEDIUM, Logger.LogType.ERROR); }
     App.setWatchList(WATCHLIST);
     App.updateCameras();
     Logger.instance().log("Updated", "Cameras", Logger.Verbosity.HIGH);
   }
 
-  @SuppressWarnings("CallToPrintStackTrace")
   public static void setup(String uriString) {
     try {
       // Download full camera list
@@ -56,7 +54,7 @@ public class ApiDownloader implements Runnable {
           WATCHLIST.put(name, url);
         }
       }
-    } catch (URISyntaxException | IOException e) { e.printStackTrace(); }
+    } catch (URISyntaxException | IOException logError) { Logger.instance().log("Getting", "Cameras", Logger.Verbosity.MEDIUM, Logger.LogType.ERROR); }
     App.setWatchList(WATCHLIST);
     App.updateCameras();
     Logger.instance().log("Updated", "Cameras", Logger.Verbosity.HIGH);

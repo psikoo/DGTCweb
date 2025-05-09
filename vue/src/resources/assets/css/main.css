@@ -6,17 +6,20 @@
   --bg-color: #2A2A40;
   --text-color: #EEEEEE;
   --primary-color: #202035;
+  --hover-color: #202035;
 }
 
 #app {
   background-color: var(--body-color);
   color: var(--text-color);
   display: flex;
-  height: calc(100vh - 2rem);
+  height: calc(100vh - 4rem);
   margin: 0 auto;
   padding: 1rem;
   font-weight: normal;
 }
+
+.hidden { display: none !important; }
 
 @media (hover: hover) {
   a:hover {

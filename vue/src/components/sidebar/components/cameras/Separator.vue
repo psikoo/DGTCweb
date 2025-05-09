@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="sideSeparator">
   </div>
@@ -9,7 +5,8 @@
 
 <style scoped>
 .sideSeparator {
-  margin-inline: 1rem;
+  filter: opacity(20%);
+  margin-inline: 0.5rem;
   border-top: 2px solid var(--border-color);
 }
 </style>

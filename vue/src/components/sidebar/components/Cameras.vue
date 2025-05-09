@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import type { Camera } from '@/types';
-import Cam from './Cam.vue';
-import Separator from './Separator.vue';
+import type { Camera } from '@/resources/types';
+
+import Cam from './cameras/Cam.vue';
+import Separator from './cameras/Separator.vue';
+
 defineProps<{
   cameras: Camera[]
+  cameraId: number
 }>()
 </script>
 
@@ -13,7 +16,7 @@ defineProps<{
       <Cam v-for="camera in cameras" 
         @setCamera="(cameraId) => $emit('setCamera', cameraId)" 
         :class="{ hidden: !camera.watch }" 
-        :location="camera.location" :name="camera.name" :watch="camera.watch"
+        :road="camera.road" :location="camera.location" :name="camera.name" :watch="camera.watch" :cameraId
       />
     </div>
     <Separator/>
@@ -21,7 +24,7 @@ defineProps<{
       <Cam v-for="camera in cameras" 
         @setCamera="(cameraId) => $emit('setCamera', cameraId)"
         :class="{ hidden: camera.watch }" 
-        :location="camera.location" :name="camera.name" :watch="camera.watch"
+        :road="camera.road" :location="camera.location" :name="camera.name" :watch="camera.watch" :cameraId
       />
     </div>
   </div>
@@ -29,9 +32,7 @@ defineProps<{
 
 <style scoped>
 .cameras {
-  margin: 0 1rem 1rem 1rem;
+  margin: 0.5rem;
 }
-.hidden {
-  display: none;
-}
+.sideCameras { flex: 1 1 auto; }
 </style>

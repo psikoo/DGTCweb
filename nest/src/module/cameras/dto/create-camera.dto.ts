@@ -6,6 +6,8 @@ export class CreateCameraDto {
   @IsString()
   name: string;
   @IsString()
+  road: string;
+  @IsString()
   location: string;
   @IsBoolean()
   watch: boolean;

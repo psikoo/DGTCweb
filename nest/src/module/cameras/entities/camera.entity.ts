@@ -10,6 +10,8 @@ export class Camera {
   @Column({nullable:false})
   name: string;
   @Column({nullable:false})
+  road: string;
+  @Column({nullable:false})
   location: string;
   @Column({nullable:false})
   watch: boolean;

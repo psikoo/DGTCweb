@@ -45,6 +45,6 @@ public class PhotoDownloader implements Runnable {
         // Post image to Imgur and image info to the api
         Command.instance().executeCommand(command);
       } 
-    } catch (IOException | URISyntaxException e) { e.printStackTrace(); }
+    } catch (IOException | URISyntaxException logError) { Logger.instance().log("Getting", "Image "+cameraId, Logger.Verbosity.MEDIUM, Logger.LogType.ERROR); }
   }
 }
