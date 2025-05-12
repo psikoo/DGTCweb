@@ -23,8 +23,8 @@ export class PhotosService {
     return await this.photoRepository.find({order: {id: {direction: "DESC"}}, relations: ["cameraId"]});
   }
 
-  async findAllByCameraId(id: number) {
-    return await this.photoRepository.find({where: {cameraId: {id: id}}, order: {id: {direction: "DESC"}}, relations: ["cameraId"]});
+  async find100ByCameraId(id: number) {
+    return await this.photoRepository.find({where: {cameraId: {id: id}}, order: {id: {direction: "DESC"}}, take:100, relations: ["cameraId"]});
   }
 
   async findOne(id: number) {

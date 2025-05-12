@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.Properties;
 
 import com.autodownload.util.Command;
@@ -35,8 +36,9 @@ public class PhotoDownloader implements Runnable {
       String[] command = {"./request/post.sh","./images/"+cameraId+".jpg", String.valueOf(cameraId), String.valueOf(api), String.valueOf(apiKey)};
       String tmp = System.getProperty("user.dir")+"/images/"+cameraId+"tmp.jpg";
       String original = System.getProperty("user.dir")+"/images/"+cameraId+".jpg";
-      // Download image into tmp
-      Get.getImgFromURL(uriString, tmp);
+      // Download image into tmp (the unix time is added to invalidate caches)      
+      Long unix = new Date().getTime()/1000;
+      Get.getImgFromURL(uriString+"?t="+unix, tmp);
       // Compare MD5 hashes to check if the images are different
       if((!MD5.getMD5(original).equals(MD5.getMD5(tmp)) && !MD5.getMD5(tmp).equals("error")) || MD5.getMD5(original).equals("error")) {
         // Copy and replace tmp to original

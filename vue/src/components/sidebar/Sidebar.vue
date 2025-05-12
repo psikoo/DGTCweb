@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Camera } from '@/resources/types';
 
-import Header from './components/Head.vue';
 import Cameras from './components/Cameras.vue';
 
 defineProps<{
@@ -12,17 +11,19 @@ defineProps<{
 
 <template>
   <div class="sideBar">
-    <Header class="header"/>
+    <a href="https://github.com/psikoo/DGTCweb" target="_blank" class="header">DGTC web</a>
     <Cameras @setCamera="(cameraId) => $emit('setCamera', cameraId)" class="cameras" :cameras :cameraId/>
   </div>
 </template>
 
 <style scoped>
 .header {
-  z-index: 10;
-  position: sticky;
-  top: 0;
-  left: 0;
+  padding: .5rem;
+  text-align: center;
+  border-radius: calc(25px - 1rem);
+  background: var(--primary-color);
+  box-shadow: 0px 0px 10px -5px rgba(0,0,0,1);
+  flex: 0 1 auto;
 }
 .cameras{
   margin-top: 1rem;

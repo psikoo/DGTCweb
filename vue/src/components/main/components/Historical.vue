@@ -12,14 +12,14 @@ defineProps<{
 <template>
   <div class="historical">
     <img 
-      @click="$emit('setImage', cameraUrl)"
+      @click="$emit('setImage', 0)"
       :src="cameraUrl" :alt="cameraUrl"
       draggable="false"
     />
     <Separator/>
     <img 
-      @click="$emit('setImage', photo.url)"
-      v-for="photo in photos" :src="photo.url" :alt="photo.url" 
+      @click="$emit('setImage', index+1)"
+      v-for="(photo, index) in photos" :src="photo.url" :alt="photo.url" 
       class="otherImg"
       draggable="false"
     />

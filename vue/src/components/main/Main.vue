@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect, type Ref } from 'vue';
+import { onMounted, ref, watchEffect, type Ref } from 'vue';
 import { type Camera, type Photo } from '@/resources/types';
 
 import Zoom from './components/Zoom.vue';
@@ -46,8 +46,6 @@ async function getPhotos(url: string) {
       headers: headersList 
     });
     photos.value = await res.json();
-    //photoUrl.value = photos.value[0].url;
-    console.log("Main photo > "+photos.value[0].url)
   } catch(e) {
     console.log(e);
   }
@@ -60,6 +58,14 @@ function setZoom(state: boolean) { zoom.value = state; }
 // Url used for feature image
 const photoUrl: Ref<string> = ref("Loading");
 function setImage(Url: string) { photoUrl.value = Url; }
+
+// Update the live image
+const liveUpdate: Ref<boolean> = ref(false);
+function toggleLiveUpdate(state: boolean) { 
+  setPhotoArrayIndex(0);
+  liveUpdate.value = liveUpdate.value? false : true; 
+  photoUrl.value = cameraUrl.value+"?t="+new Date().getTime();
+}
 
 // 
 const photoArrayPos: Ref<number> = ref(0);
@@ -82,10 +88,22 @@ function updatePhotoArrayPos(int: number) {
   }
   else console.log("Photo cant change");  
 }
-  
+function setPhotoArrayIndex(index: number) {
+  photoArrayPos.value = index;
+  if(index == 0) setImage(cameraUrl.value);
+  else setImage(photos.value[photoArrayPos.value-1].url);
+}
+
+onMounted(() => {
+  setInterval(function() {
+    setPhotoArrayIndex(0);
+    if(liveUpdate) photoUrl.value=photoUrl.value+"?"+new Date().getTime();
+  }, 60*1000);
+})
+
 watchEffect(() => {
   // Get camera from name
-  if(props.cameraId != 0) getCamera("http://localhost:3000/api/cameras/name/"+props.cameraId);
+  if(props.cameraId != 0 && props.cameraId != parseInt(camera.value.name)) getCamera("http://localhost:3000/api/cameras/name/"+props.cameraId);
   // Set feature photo to cameraUrl
   photoUrl.value = cameraUrl.value;
   // Reset photoArrayPos when changing camera
@@ -100,9 +118,11 @@ watchEffect(() => {
     <Feature 
       @setZoom="(state) => setZoom(state)" 
       @updatePhotoArrayPos="(int) => updatePhotoArrayPos(int)" 
-      :photoUrl
+      @toggleLiveUpdate="(state) => toggleLiveUpdate(state)"
+      @updateCameras="(cameraId, state) => $emit('updateCameras', cameraId, state)"
+      :photoUrl :cameraId="camera.id" :liveUpdate :camera
     />
-    <Historical @setImage="(url) => setImage(url)" :cameraUrl :photos/>
+    <Historical @setImage="(index) => setPhotoArrayIndex(index)" :cameraUrl :photos/>
   </div>
 </template>
 

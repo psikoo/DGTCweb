@@ -24,6 +24,35 @@ async function getCameras(url: string) {
   }
 }
 
+// Add or remove camera from watchList
+const apiPassword: Ref<string> = ref("");
+async function updateWatchList(cameraId: number, state: boolean) {
+  apiPassword.value = prompt("Enter an api password", "")?? "";
+  await postUpdate("http://localhost:3000/api/cameras/"+cameraId, apiPassword.value, state);
+  await getCameras('http://localhost:3000/api/cameras/');
+}
+
+// Patch camera's watch to the given state
+const resStatus: Ref<number> = ref(0)
+async function postUpdate(url: string, apiPassword: string, state: boolean) {
+  try {
+    const headersList = {
+      "Accept": "*/*",
+      "Access-Control-Allow-Origin": "*",
+      "apikey": apiPassword,
+      "Content-Type": "application/json"
+    }
+    const res = await fetch(url, { 
+      method: "PATCH",
+      headers: headersList,
+      body: JSON.stringify({"watch": state})
+    });
+    resStatus.value = res.status;
+  } catch(e) {
+    console.log(e);
+  }
+}
+
 // Internal state for witch camera to display
 const camera = ref(0);
 function setCamera(cameraId: number) {
@@ -64,11 +93,15 @@ onMounted(() => {
 
 <template>
   <Sidebar 
-    @setCamera="(cameraId) => setCamera(cameraId)"  
+    @setCamera="(cameraId) => setCamera(cameraId)"
     class="sidebar" 
     :cameras :cameraId="camera"
   />
-  <Main class="main" :cameraId="camera"/>
+  <Main
+    @updateCameras="(cameraId, state) => updateWatchList(cameraId, state)"  
+    class="main" 
+    :cameraId="camera"
+  />
 </template>
 
 <style scoped>

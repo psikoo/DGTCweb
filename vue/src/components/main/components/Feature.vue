@@ -1,24 +1,40 @@
 <script setup lang="ts">
+
+import Arrow from './Arrow.vue';
+import type { Camera } from '@/resources/types';
+
 defineProps<{
   photoUrl: string;
+  cameraId: number;
+  liveUpdate: boolean;
+  camera: Camera
 }>()
 </script>
 
 <template>
   <div class="feature">
-    <div 
-      @click="$emit('updatePhotoArrayPos', -1)"
-      class="arrow"
-    ><</div>
+    <Arrow :updateAmount="-1" @updatePhotoArrayPos="(updateAmount) => $emit('updatePhotoArrayPos', updateAmount)" class="LArrow"><</Arrow>
     <img 
       @click="$emit('setZoom', true)"
       :src="photoUrl" :alt="photoUrl" 
       draggable="false"
     />
-    <div 
-      @click="$emit('updatePhotoArrayPos', 1)"
-      class="arrow"
-    >></div>
+    <Arrow :updateAmount="1" @updatePhotoArrayPos="(updateAmount) => $emit('updatePhotoArrayPos', updateAmount)" class="RArrow">></Arrow>
+    
+    <div class="buttons grow">
+      <a :href="photoUrl" target="_blank" draggable="false" class="button">
+        <div class="ButtonContent">Download</div>
+        <div class="icon">⬇️</div>
+      </a>
+      <div @click="$emit('toggleLiveUpdate')" :class="{ active: liveUpdate, button: true }">
+        <div class="ButtonContent">Live Update</div>
+        <div class="icon">🔴</div>
+      </div>
+      <div @click="$emit('updateCameras', cameraId, camera.watch ? false : true)" class="button">
+        <div class="ButtonContent">{{ camera.watch ? "Remove" : "Add" }}</div>
+        <div class="icon">👁️</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,16 +53,33 @@ defineProps<{
   user-select: none;
   cursor: zoom-in;
 }
-.arrow {
-  padding: 1rem 0.65rem 1rem 0.65rem;
-  border-radius: 25px;
-  box-shadow: 0px 0px 10px -5px rgba(0,0,0,1);
 
+.LArrow { margin-left: 1rem; }
+.RArrow { margin-right: 1rem; }
+
+.buttons {
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.button {
+  padding: 0.75rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px -5px rgba(0,0,0,1);
   user-select: none;
   cursor: pointer;
-} .arrow:hover {
-  box-shadow: 0px 0px 10px -5px rgba(150,150,150,1);
-} .arrow:active {
-  box-shadow: 0px 0px 10px -5px rgba(255,255,255,1);
+  display: flex;
+  justify-content: space-between;
+} 
+.button:hover { box-shadow: 0px 0px 10px -5px rgba(150,150,150,1); } 
+.button:active { box-shadow: 0px 0px 10px -5px rgba(255,255,255,1); }
+
+.active {
+  background-color: rgba(0,128,0,0.2);
+}
+
+.grow {
+  flex-grow: 1;
 }
 </style>
