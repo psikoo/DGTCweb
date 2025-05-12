@@ -46,7 +46,7 @@ defineProps<{
   gap: 0.5rem;
 }
 .location {
-  min-width: 4rem;
+  min-width: 5rem;
 }
 .id {
   flex-grow: 1;

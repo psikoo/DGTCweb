@@ -2,17 +2,23 @@
 import type { Camera } from '@/resources/types';
 
 import Cameras from './components/Cameras.vue';
+import Filter from './components/Filter.vue';
+import { ref, type Ref } from 'vue';
 
 defineProps<{
   cameras: Camera[]
   cameraId: number
 }>()
+
+const filter: Ref<string> = ref("");
+function updateFilter(selected: string) { filter.value = selected; }
 </script>
 
 <template>
   <div class="sideBar">
     <a href="https://github.com/psikoo/DGTCweb" target="_blank" class="header">DGTC web</a>
-    <Cameras @setCamera="(cameraId) => $emit('setCamera', cameraId)" class="cameras" :cameras :cameraId/>
+    <Filter @updateFilter="(selected) => updateFilter(selected)"/>
+    <Cameras @setCamera="(cameraId) => $emit('setCamera', cameraId)" class="cameras" :cameras :filter :cameraId/>
   </div>
 </template>
 
@@ -26,7 +32,6 @@ defineProps<{
   flex: 0 1 auto;
 }
 .cameras{
-  margin-top: 1rem;
   overflow-y: scroll;
 }
 .sideBar {

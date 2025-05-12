@@ -5,8 +5,9 @@ import Cam from './cameras/Cam.vue';
 import Separator from './cameras/Separator.vue';
 
 defineProps<{
-  cameras: Camera[]
-  cameraId: number
+  cameras: Camera[];
+  filter: string;
+  cameraId: number;
 }>()
 </script>
 
@@ -23,7 +24,7 @@ defineProps<{
     <div class="cameras">
       <Cam v-for="camera in cameras" 
         @setCamera="(cameraId) => $emit('setCamera', cameraId)"
-        :class="{ hidden: camera.watch }" 
+        :class="{ hidden: camera.watch || (filter != '' && camera.road != filter)}" 
         :road="camera.road" :location="camera.location" :name="camera.name" :watch="camera.watch" :cameraId
       />
     </div>
