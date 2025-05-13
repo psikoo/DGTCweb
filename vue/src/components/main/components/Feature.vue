@@ -48,6 +48,8 @@ defineProps<{
 }
 .feature>img {
   width: 100%;
+  max-height: calc(100vh - 15rem);
+  max-width: calc((100vh - 15rem) * 1.777777); /* 1.7 is for 16/9 aspect ratio */
   border-radius: 25px;
   box-shadow: 0px 0px 10px -2px rgba(0,0,0,1);
   user-select: none;
