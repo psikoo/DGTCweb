@@ -22,7 +22,10 @@ defineProps<{
 }
 .zoom>img {
   display: block;
-  height: calc(100vh - 2rem);
+  max-height: calc(100vh - 2rem);
+  max-width: calc(100vh * 1.777777); /* 1.7 is for 16/9 aspect ratio */
+  
+  width: calc(100vw - 2rem);
   margin: 1rem auto 1rem auto;
   cursor: zoom-out;
 }

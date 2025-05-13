@@ -128,6 +128,7 @@ watchEffect(() => {
 
 <style scoped>
 .main {
+  flex-grow: 1;
   padding: 0.5rem 1rem 0.5rem 1rem;
   height: calc(100% + 1rem);
   width: 100%;

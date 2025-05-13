@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#TODO make work in docker and make api url change if in docker with props in java (maybe move to other place and add copy in dockerfile)
 imagePath=$1
 cameraName=$2
 api=$3
@@ -21,7 +20,7 @@ sed -i 's/",//g' ./request/link$cameraName.txt &&
 link=$(cat ./request/link$cameraName.txt) &&
 
 #* Get cameraId
-curl -s --location $api'/cameras/name/'$cameraName > ./request/res$cameraName.json &&
+curl -k -s --location $api'/cameras/name/'$cameraName > ./request/res$cameraName.json &&
 sed -i 's/,/,\n/g' ./request/res$cameraName.json &&
 grep "id" ./request/res$cameraName.json > ./request/link$cameraName.txt &&
 sed -i 's/{"id"://g' ./request/link$cameraName.txt &&
@@ -30,7 +29,7 @@ cameraId=$(cat ./request/link$cameraName.txt) &&
 
 #* Post to nest
 data='{"url":"'$link'","time":'$unix',"cameraId":'$cameraId'}'
-curl -s --location $api'/photos' \
+curl -k -s --location $api'/photos' \
      --header 'apikey: '$apiKey \
      --header 'Content-Type: application/json' \
      --data $data

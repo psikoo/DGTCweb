@@ -77,6 +77,8 @@ function setCamera(cameraId: number) {
   // If the url has the same camera param update the internal state;
   else { camera.value = cameraId; }
 }
+
+// Set the current camera to the url
 function setupCamera() {
   const urlParams = new URLSearchParams(window.location.search);
   if(!urlParams.has("camera")) setCamera(598);
@@ -89,28 +91,19 @@ onMounted(() => {
   // Set camera according to the url or to the default (598)
   setupCamera();
 })
+
+const phone: Ref<boolean> = ref(!!navigator.userAgent.match(/iPad|iPhone|iPod|BlackBerry|Android|Windows Pone|webOS|Nintendo Switch|Nintendo WiiU|Nintendo 3DS/i));
+const isInstagram = ref(!!navigator.userAgent.match(/Instagram/i));
+const isAndroid = ref(!!navigator.userAgent.match(/Android/i));
+const isIOS = ref(!!navigator.userAgent.match(/iPad|iPhone|iPod/i));
 </script>
 
 <template>
-  <Sidebar 
-    @setCamera="(cameraId) => setCamera(cameraId)"
-    class="sidebar" 
-    :cameras :cameraId="camera"
-  />
-  <Main
-    @updateCameras="(cameraId, state) => updateWatchList(cameraId, state)"  
-    class="main" 
-    :cameraId="camera"
-  />
+  <div v-if="isInstagram">
+    <a v-if="isAndroid" href="intent://dgt.cait.moe#Intent;scheme=https;end" target="_blank" class="openIn">Open your default browser</a>
+    <a v-else-if="isIOS" href="x-safari-https://dgt.cait.moe" target="_blank" class="openIn">Open in Safari</a>
+    <h1 v-else>Please manually open the site in your native browser of choice :D</h1>
+  </div>
+  <Sidebar @setCamera="(cameraId) => setCamera(cameraId)" :cameras :cameraId="camera" />
+  <Main @updateCameras="(cameraId, state) => updateWatchList(cameraId, state)"  :cameraId="camera"/>
 </template>
-
-<style scoped>
-.sidebar {
-  min-width: 15vw;
-  border-radius: 25px;
-  background-color: var(--bg-color);
-}
-.main {
-  flex-grow: 1;
-}
-</style>

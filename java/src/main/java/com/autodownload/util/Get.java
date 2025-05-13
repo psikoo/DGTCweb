@@ -1,5 +1,6 @@
 package com.autodownload.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -29,7 +30,9 @@ public class Get {
 
   // Fetch json object
   public static JsonNode getJsonFromURL(String uriString) throws URISyntaxException, IOException {
-    URL url = new URI(uriString).toURL();
+    String[] command = {"./request/get.sh"};
+    Command.instance().executeCommand(command);
+    URL url = new File("./request/cams.json").toURI().toURL();
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readTree(url);
   }

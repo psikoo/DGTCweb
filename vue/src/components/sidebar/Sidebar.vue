@@ -18,11 +18,21 @@ function updateFilter(selected: string) { filter.value = selected; }
   <div class="sideBar">
     <a href="https://github.com/psikoo/DGTCweb" target="_blank" class="header">DGTC web</a>
     <Filter @updateFilter="(selected) => updateFilter(selected)"/>
-    <Cameras @setCamera="(cameraId) => $emit('setCamera', cameraId)" class="cameras" :cameras :filter :cameraId/>
+    <Cameras @setCamera="(cameraId) => $emit('setCamera', cameraId)" :cameras :filter :cameraId/>
   </div>
 </template>
 
 <style scoped>
+.sideBar {
+  padding: 1rem;
+  height: 100%;
+  background-color: var(--bg-color);
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px -5px rgba(0,0,0,1);
+  display: flex;
+  flex-flow: column;
+}
+
 .header {
   padding: .5rem;
   text-align: center;
@@ -30,15 +40,5 @@ function updateFilter(selected: string) { filter.value = selected; }
   background: var(--primary-color);
   box-shadow: 0px 0px 10px -5px rgba(0,0,0,1);
   flex: 0 1 auto;
-}
-.cameras{
-  overflow-y: scroll;
-}
-.sideBar {
-  padding: 1rem;
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-  box-shadow: 0px 0px 10px -5px rgba(0,0,0,1);
 }
 </style>

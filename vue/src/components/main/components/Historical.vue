@@ -31,6 +31,7 @@ defineProps<{
   display: flex;
   gap: 0.5rem;
   overflow-x: scroll;
+  scrollbar-width: thin;
 }
 .historical>img {
   height: 10rem;
