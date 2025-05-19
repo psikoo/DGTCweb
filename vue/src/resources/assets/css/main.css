@@ -12,10 +12,6 @@
 #app {
   background-color: var(--body-color);
   color: var(--text-color);
-  display: flex;
-  height: calc(100vh - 4rem);
-  margin: 0 auto;
-  padding: 1rem;
   font-weight: normal;
 }
 

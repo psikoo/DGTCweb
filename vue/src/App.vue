@@ -2,8 +2,11 @@
 import { onMounted, ref, type Ref } from 'vue';
 import { type Camera } from '@/resources/types';
 
+import { useWindowSize } from '@vueuse/core';
+
 import Sidebar from '@/components/sidebar/Sidebar.vue';
 import Main from '@/components/main/Main.vue';
+import MainPhone from '@/components/mainPhone/Main.vue';
 
 // Get camera list
 const cameras: Ref<Camera[]> = ref([{} as Camera]);
@@ -96,6 +99,8 @@ const phone: Ref<boolean> = ref(!!navigator.userAgent.match(/iPad|iPhone|iPod|Bl
 const isInstagram = ref(!!navigator.userAgent.match(/Instagram/i));
 const isAndroid = ref(!!navigator.userAgent.match(/Android/i));
 const isIOS = ref(!!navigator.userAgent.match(/iPad|iPhone|iPod/i));
+
+const { width, height } = useWindowSize()
 </script>
 
 <template>
@@ -104,6 +109,23 @@ const isIOS = ref(!!navigator.userAgent.match(/iPad|iPhone|iPod/i));
     <a v-else-if="isIOS" href="x-safari-https://dgt.cait.moe" target="_blank" class="openIn">Open in Safari</a>
     <h1 v-else>Please manually open the site in your native browser of choice :D</h1>
   </div>
-  <Sidebar @setCamera="(cameraId) => setCamera(cameraId)" :cameras :cameraId="camera" />
-  <Main @updateCameras="(cameraId, state) => updateWatchList(cameraId, state)"  :cameraId="camera"/>
+  <div v-else-if="phone || (width <= 1200)">  
+    <MainPhone @updateCameras="(cameraId, state) => updateWatchList(cameraId, state)"  :cameraId="camera"/>
+  </div>
+  <div v-else class="main">
+    <Sidebar @setCamera="(cameraId) => setCamera(cameraId)" :cameras :cameraId="camera" />
+    <Main @updateCameras="(cameraId, state) => updateWatchList(cameraId, state)"  :cameraId="camera"/>
+  </div>
 </template>
+
+<style scoped>
+.main {
+  background-color: var(--body-color);
+  color: var(--text-color);
+  display: flex;
+  height: calc(100vh - 4rem);
+  margin: 0 auto;
+  padding: 1rem;
+  font-weight: normal;
+}
+</style>

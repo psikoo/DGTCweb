@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import { ref, type Ref } from 'vue';
 import Arrow from './Arrow.vue';
 import type { Camera } from '@/resources/types';
 
@@ -88,5 +88,15 @@ defineProps<{
 
 .grow {
   flex-grow: 1;
+}
+
+.smallFeature {
+  flex-direction: column !important;
+  flex-grow: 0 !important;
+}
+.smallButtons{
+  flex-direction: row !important;
+  align-items: end !important;
+  flex-grow: 1 !important;
 }
 </style>
